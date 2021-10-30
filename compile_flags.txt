@@ -1,5 +1,6 @@
 -std=c++20
 -I/usr/include
+-I./build/_deps/cli11-src/include
 -Wall
 -O3
 -Wthread-safety

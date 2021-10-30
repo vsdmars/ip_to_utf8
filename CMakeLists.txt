@@ -20,12 +20,16 @@ FetchContent_MakeAvailable(cli11)
 # enable_testing()
 
 set(EXEC_NAME iuctl)
+set(LIB_NAME iulib)
 set(VERSION 0.0.1)
 
 # set the project name / version
 project(${EXEC_NAME} VERSION ${VERSION} LANGUAGES CXX)
 
+add_subdirectory(src)
 add_executable(${EXEC_NAME} main.cpp)
 
 target_include_directories(${EXEC_NAME} AFTER PRIVATE ${cli11_SOURCE_DIR}/include)
+target_include_directories(${EXEC_NAME} AFTER PRIVATE "${CMAKE_SOURCE_DIR}/include")
 target_compile_options(${EXEC_NAME} PRIVATE ${COMPILE_OPTIONS})
+target_link_libraries(${EXEC_NAME} PRIVATE ${LIB_NAME})
