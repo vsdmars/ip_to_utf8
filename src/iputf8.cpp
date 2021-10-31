@@ -1,20 +1,27 @@
 #include <header.h>
+#include <iostream>
+using namespace std;
 
-#include <fmt/core.h>
+#include <fmt/printf.h>
 #include <rapidjson/document.h>
 
 using namespace rapidjson;
 
-// http://www.utf8-chartable.de/   UTF8  0~255 table
-optional<string> genIPFromUTF8(std::string ip) {
+/**
+ * genIPFromUTF8 generates input UTF8 string to IP in string CIDR format
+ * http://www.utf8-chartable.de/   UTF8  0~255 table
+ *
+ */
+optional<string> genIPFromUTF8(string ip) {
 
-  string tmpStr = R"({"ip":"HAHA"})";
-  std::string message = fmt::format("The answer is {}", 42);
-
+  string tmpStr = fmt::sprintf(R"({"ip": "%s"})", ip);
   Document parsedDocument;
+
   parsedDocument.Parse(tmpStr.c_str());
   string utf8Ip{parsedDocument["ip"].GetString(),
                 parsedDocument["ip"].GetStringLength()};
+
+  cout << utf8Ip << endl;
 
   unsigned char ipV6[16] = {0};
 
@@ -25,6 +32,8 @@ optional<string> genIPFromUTF8(std::string ip) {
   auto ipIdx = 0;
   auto idx = 0;
   while (ipIdx < utf8Ip.size()) {
+
+    cout << "utf8ip[" << ipIdx << "]: " << utf8Ip[ipIdx] << endl;
     unsigned char val = (unsigned char)utf8Ip[ipIdx];
 
     if (val == 0xC3) { // e.g., rapidJson will read \u00FF  as 0xC3 0xBF
@@ -74,10 +83,14 @@ optional<string> genIPFromUTF8(std::string ip) {
   }
 
   return res;
-} // end getCidrIpFromUtf8Ip()
+}
 
-// tool to get JSON encode IP from human readable IP. For IPv6 input, we don't
-// accept abbreviated like ::12:3:4:5, and only accept a-f, not A-F
+/**
+ * genUTF8Str generates UTF8 string from input IP CIDR string.
+ * For IPv6 input, does not accept abbreviated like ::12:3:4:5.
+ * Only allows a-f, not A-F
+ *
+ */
 optional<string> genUTF8Str(const string &cidrIp) {
   unsigned char bytes[16] = {0};
 
@@ -155,5 +168,6 @@ optional<string> genUTF8Str(const string &cidrIp) {
       data.append(buf);
     }
   } // end for
+
   return data;
-} // end getJsonIpFromCidrIp
+}

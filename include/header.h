@@ -8,5 +8,5 @@ using std::optional;
 using std::string;
 using std::to_string;
 
-optional<string> genIPFromUTF8(const std::string &utf8Ip);
+optional<string> genIPFromUTF8(string ip);
 optional<string> genUTF8Str(const string &cidrIp);
