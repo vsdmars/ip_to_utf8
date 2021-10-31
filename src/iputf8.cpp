@@ -1,6 +1,4 @@
 #include <header.h>
-#include <iostream>
-using namespace std;
 
 #include <fmt/printf.h>
 #include <rapidjson/document.h>
@@ -21,8 +19,6 @@ optional<string> genIPFromUTF8(string ip) {
   string utf8Ip{parsedDocument["ip"].GetString(),
                 parsedDocument["ip"].GetStringLength()};
 
-  cout << utf8Ip << endl;
-
   unsigned char ipV6[16] = {0};
 
   if (utf8Ip.size() < 16) { // 192.168.232.121     only 15 chars
@@ -33,15 +29,23 @@ optional<string> genIPFromUTF8(string ip) {
   auto idx = 0;
   while (ipIdx < utf8Ip.size()) {
 
-    cout << "utf8ip[" << ipIdx << "]: " << utf8Ip[ipIdx] << endl;
     unsigned char val = (unsigned char)utf8Ip[ipIdx];
 
     if (val == 0xC3) { // e.g., rapidJson will read \u00FF  as 0xC3 0xBF
+
+      if (ipIdx + 1 >= utf8Ip.size()) {
+        return {};
+      }
+
       ipV6[idx] = (unsigned char)utf8Ip[ipIdx + 1];
       ipV6[idx] += 0x40; // the diff between UTF8 code and the original
                          // code, e.g., 0xBF->0xFF, 0xBE->0xFE
       ipIdx += 2;
     } else if (val == 0xC2) {
+      if (ipIdx + 1 >= utf8Ip.size()) {
+        return {};
+      }
+
       ipV6[idx] = (unsigned char)utf8Ip[ipIdx + 1];
       ipIdx += 2;
     } else if (val <= 0x7F) {
