@@ -1,7 +1,20 @@
 #include <header.h>
 
+#include <fmt/core.h>
+#include <rapidjson/document.h>
+
+using namespace rapidjson;
+
 // http://www.utf8-chartable.de/   UTF8  0~255 table
-optional<string> getCidrIpFromUtf8Ip(const std::string &utf8Ip) {
+optional<string> genIPFromUTF8(std::string ip) {
+
+  string tmpStr = R"({"ip":"HAHA"})";
+  std::string message = fmt::format("The answer is {}", 42);
+
+  Document parsedDocument;
+  parsedDocument.Parse(tmpStr.c_str());
+  string utf8Ip{parsedDocument["ip"].GetString(),
+                parsedDocument["ip"].GetStringLength()};
 
   unsigned char ipV6[16] = {0};
 
@@ -65,7 +78,7 @@ optional<string> getCidrIpFromUtf8Ip(const std::string &utf8Ip) {
 
 // tool to get JSON encode IP from human readable IP. For IPv6 input, we don't
 // accept abbreviated like ::12:3:4:5, and only accept a-f, not A-F
-optional<string> getJsonIpFromCidrIp(const string &cidrIp) {
+optional<string> genUTF8Str(const string &cidrIp) {
   unsigned char bytes[16] = {0};
 
   int i = 0;

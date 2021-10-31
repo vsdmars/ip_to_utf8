@@ -14,8 +14,8 @@ int main(int argc, char **argv) {
 
   CLI11_PARSE(app, argc, argv);
 
-  std::cout << *getJsonIpFromCidrIp("192.168.1.1") << std::endl;
-  std::cout << *getCidrIpFromUtf8Ip(*getJsonIpFromCidrIp("192.168.1.1"))
-            << std::endl;
+  // std::cout << *getJsonIpFromCidrIp("192.168.1.1") << std::endl;
+  // std::cout << *getCidrIpFromUtf8Ip(*getJsonIpFromCidrIp("192.168.1.1"))
+  // << std::endl;
   return 0;
 }

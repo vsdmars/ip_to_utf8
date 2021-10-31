@@ -8,5 +8,5 @@ using std::optional;
 using std::string;
 using std::to_string;
 
-optional<string> getCidrIpFromUtf8Ip(const std::string &utf8Ip);
-optional<string> getJsonIpFromCidrIp(const string &cidrIp);
+optional<string> genIPFromUTF8(const std::string &utf8Ip);
+optional<string> genUTF8Str(const string &cidrIp);
