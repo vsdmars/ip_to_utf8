@@ -62,3 +62,6 @@ target_include_directories(${EXEC_NAME} AFTER PRIVATE ${cli11_SOURCE_DIR}/includ
 target_include_directories(${EXEC_NAME} AFTER PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_options(${EXEC_NAME} PRIVATE ${COMPILE_OPTIONS})
 target_link_libraries(${EXEC_NAME} PRIVATE ${LIB_NAME})
+
+# install
+install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION "~/bin")
