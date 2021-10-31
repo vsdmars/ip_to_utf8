@@ -1,4 +1,4 @@
-# iuctl converts CIDR IP string to UTF8 format and vice versa.
+# iuctl converts CIDR IPv4/IPv6 string to UTF8 format and vice versa.
 ```bash
 $iuctl --help
 ```
